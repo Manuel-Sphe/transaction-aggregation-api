@@ -1,15 +1,39 @@
 package com.aggregation.api.domain.model;
 
-import com.aggregation.api.domain.valueobject.CustomerId;
-import com.aggregation.api.domain.valueobject.MerchantName;
-import com.aggregation.api.domain.valueobject.Money;
-import com.aggregation.api.domain.valueobject.TransactionCategory;
+import com.aggregation.api.domain.valueobject.*;
 
-public class Transaction {
+import java.time.Instant;
 
-    private String id;
-    private CustomerId customerId;
-    private Money money;
-    private MerchantName merchant;
-    private TransactionCategory category;
+public record Transaction(
+        TransactionId transactionId,
+        TransactionCategory category,
+        TransactionSource source,
+        CustomerId customerId,
+        Money money,
+        MerchantName merchant,
+        Instant timestamp
+
+) {
+
+    public static Transaction from(
+            TransactionId transactionId,
+            TransactionCategory category,
+            TransactionSource source,
+            CustomerId customerId,
+            Money money,
+            MerchantName merchant,
+            Instant timestamp
+    ) {
+        return new Transaction(
+                transactionId,
+                category,
+                source,
+                customerId,
+                money,
+                merchant,
+                timestamp
+
+        );
+    }
+
 }

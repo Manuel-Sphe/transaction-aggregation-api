@@ -1,9 +1,9 @@
 package com.aggregation.api.domain.valueobject;
 
-public record TransactionCategory(String value) {
+public record TransactionCategory(String category) {
 
     public TransactionCategory {
-        if (value == null || value.isBlank()) {
+        if (category == null || category.isBlank()) {
             throw new IllegalArgumentException("Invalid transaction category");
         }
     }

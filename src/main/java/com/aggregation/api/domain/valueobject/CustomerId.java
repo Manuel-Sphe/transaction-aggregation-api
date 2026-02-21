@@ -1,8 +1,8 @@
 package com.aggregation.api.domain.valueobject;
 
-public record CustomerId(String value) {
+public record CustomerId(String customerId) {
     public CustomerId {
-        if (value == null  || value.isBlank()) {
+        if (customerId == null  || customerId.isBlank()) {
             throw new IllegalArgumentException("Invalid customer id");
         }
     }
