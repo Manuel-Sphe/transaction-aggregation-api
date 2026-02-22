@@ -1,8 +1,8 @@
 package com.aggregation.api.domain.valueobject;
 
-public record MerchantName(String name) {
+public record Merchant(String name) {
 
-    public MerchantName {
+    public Merchant {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Merchant name required");
         }
