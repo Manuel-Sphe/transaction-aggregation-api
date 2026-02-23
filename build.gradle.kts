@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.aggregation"
-version = "0.0.1-SNAPSHOT"
+version = "UNSET-VERSION"
 description = "Transaction Aggregation API"
 
 java {
