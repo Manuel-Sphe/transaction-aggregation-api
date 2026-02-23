@@ -7,6 +7,7 @@ import com.aggregation.api.domain.valueobject.Money;
 import com.aggregation.api.domain.valueobject.Category;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -21,10 +22,18 @@ public class AggregationService {
     ) {
 
         if (transactions.isEmpty()) {
-            return emptySummary(customerId);
+            return CustomerSummary.emptySummary(customerId);
         }
 
         String currency = transactions.getFirst().getMoney().currency();
+
+        // Ensure we never aggregate it across currencies
+        boolean mismatch = transactions.stream()
+                .map(tx -> tx.getMoney().currency())
+                .anyMatch(txCurrency -> !currency.equals(txCurrency));
+        if (mismatch) {
+            throw new IllegalArgumentException("Currencies mismatch");
+        }
 
         Money total = transactions.stream()
                 .map(Transaction::getMoney)
@@ -35,8 +44,12 @@ public class AggregationService {
 
         int count = transactions.size();
 
+        // Average can be a non-terminating decimal (e.g. 350 / 3), so apply a rounding policy.
+        BigDecimal averageAmount = total.amount()
+                .divide(BigDecimal.valueOf(count), 2, RoundingMode.HALF_UP);
+
         Money average = new Money(
-                total.amount().divide(BigDecimal.valueOf(count)),
+                averageAmount,
                 currency
         );
 
@@ -73,17 +86,4 @@ public class AggregationService {
         return result;
     }
 
-    private CustomerSummary emptySummary(CustomerId customerId) {
-
-        Money zero = new Money(BigDecimal.ZERO, "ZAR");
-
-        return new CustomerSummary(
-                customerId,
-                zero,
-                Map.of(),
-                0,
-                zero,
-                zero
-        );
-    }
 }
