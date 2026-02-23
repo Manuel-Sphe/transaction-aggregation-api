@@ -4,59 +4,52 @@ import com.aggregation.api.domain.model.Transaction;
 import com.aggregation.api.domain.valueobject.*;
 import jakarta.persistence.*;
 
-import java.time.Instant;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "transactions")
 public class TransactionEntity {
 
-    @EmbeddedId
-    private TransactionId id;
+    @Id
+    private UUID id;
 
-    @Embedded
-    private CustomerId customerId;
+    private String customerId;
 
-    @Embedded
-    @AttributeOverride(name = "name", column = @Column(name = "merchant_name"))
-    private MerchantName merchant;
+    private String merchant;
 
-    @Embedded
-    private TransactionCategory category;
+    private String category;
 
-    @Embedded
-    private Money money;
+    private BigDecimal amount;
 
-    private String description;
+    private String currency;
 
-    @Embedded
-    private TransactionSource source;
-
-    private Instant timestamp;
+    private LocalDateTime timestamp;
 
     public TransactionEntity() {
         // for jpa
     }
 
     public Transaction toDomain() {
-        return Transaction.from(
-                id,
-                category,
-                source,
+        return Transaction.fromEntity(
+                id.toString(),
                 customerId,
-                money,
                 merchant,
+                category,
+                amount,
+                currency,
                 timestamp
         );
     }
 
-    public TransactionEntity fromDomain(Transaction transaction) {
-        var newEntity = new TransactionEntity();
-        newEntity.id = transaction.transactionId();
-        newEntity.customerId = transaction.customerId();
-        newEntity.merchant = transaction.merchant();
-        newEntity.category = transaction.category();
-        newEntity.money = transaction.money();
-        newEntity.source = transaction.source();
-        return newEntity;
+    public TransactionEntity(Transaction transaction) {
+        this.id = transaction.getTransactionId().id();
+        this.customerId = transaction.getCustomerId().customerId();
+        this.merchant = transaction.getMerchant().name();
+        this.category = transaction.getCategory().category();
+        this.amount = transaction.getMoney().amount();
+        this.currency = transaction.getMoney().currency();
+        this.timestamp = transaction.getTimestamp();
     }
 }
