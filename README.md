@@ -80,6 +80,12 @@ From the project root (where `Dockerfile` is):
 docker build -t transaction-aggregation-api .
 ```
 
+### Docker Compose (DB)
+From the project root (where `docker-compose.yml` is):
+```shell
+docker-compose up -d
+```
+
 
 The API runs on:
 
