@@ -15,7 +15,10 @@ The system is built using Hexagonal Architecture (Ports & Adapters) to ensure se
     - monthly summaries (keyed by `YYYY-MM`)
 
 ## Final Architecture
-```mermaid
+```mermai- name: Validate Gradle Wrapper
+  uses: gradle/actions/wrapper-validation@v3.5.0
+  env:
+    NODE_OPTIONS: --dns-result-order=ipv4firstd
 flowchart TD
 
     Client --> Controller
@@ -65,6 +68,18 @@ flowchart TD
 - Gradle is provided via `./gradlew`
 
 ## Configuration
+
+### Build with Gradle
+```shell
+./gradlew clean build
+```
+
+### Docker Build
+From the project root (where `Dockerfile` is):
+```shell
+docker build -t transaction-aggregation-api .
+```
+
 
 The API runs on:
 
