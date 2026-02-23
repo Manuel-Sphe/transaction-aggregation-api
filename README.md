@@ -15,10 +15,9 @@ The system is built using Hexagonal Architecture (Ports & Adapters) to ensure se
     - monthly summaries (keyed by `YYYY-MM`)
 
 ## Final Architecture
-```mermai- name: Validate Gradle Wrapper
-  uses: gradle/actions/wrapper-validation@v3.5.0
-  env:
-    NODE_OPTIONS: --dns-result-order=ipv4firstd
+
+```mermaid
+
 flowchart TD
 
     Client --> Controller
