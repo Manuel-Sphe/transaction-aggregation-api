@@ -8,6 +8,7 @@ import com.aggregation.api.domain.service.DefaultCategorizationRules;
 import com.aggregation.api.domain.service.TransactionCategorizer;
 import com.aggregation.api.domain.valueobject.Category;
 import com.aggregation.api.domain.valueobject.CustomerId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,17 +19,28 @@ public class IngestService implements IngestTransactionsUseCase {
     private final TransactionProviderPort providerPort;
     private final TransactionRepositoryPort repositoryPort;
 
-    private final TransactionCategorizer categorizer = new TransactionCategorizer(
-            DefaultCategorizationRules.defaultRules()
-    );
+    private final TransactionCategorizer categorizer;
 
+    @Autowired
     public IngestService(
             TransactionProviderPort providerPort,
             TransactionRepositoryPort repositoryPort
     ) {
+        this(providerPort, repositoryPort,
+                new TransactionCategorizer(DefaultCategorizationRules.defaultRules()));
+    }
+
+    // Intended for tests (or manual wiring) where you want to inject a mock/alternative categorizer
+    IngestService(
+            TransactionProviderPort providerPort,
+            TransactionRepositoryPort repositoryPort,
+            TransactionCategorizer categorizer
+    ) {
         this.providerPort = providerPort;
         this.repositoryPort = repositoryPort;
+        this.categorizer = categorizer;
     }
+
 
     @Override
     public int ingest(CustomerId customerId) {

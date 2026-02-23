@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.aggregation"
-version = "0.0.1-SNAPSHOT"
+version = "UNSET-VERSION"
 description = "Transaction Aggregation API"
 
 java {
@@ -33,6 +33,8 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 
 	runtimeOnly("org.postgresql:postgresql")
+
+	testRuntimeOnly("com.h2database:h2")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
