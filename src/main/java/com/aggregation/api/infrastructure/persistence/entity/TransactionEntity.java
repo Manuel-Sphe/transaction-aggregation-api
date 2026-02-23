@@ -33,9 +33,10 @@ public class TransactionEntity {
 
     public Transaction toDomain() {
         return Transaction.fromEntity(
+                id.toString(),
                 customerId,
-                category,
                 merchant,
+                category,
                 amount,
                 currency,
                 timestamp

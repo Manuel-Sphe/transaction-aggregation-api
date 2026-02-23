@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 public final class Transaction {
@@ -31,13 +32,15 @@ public final class Transaction {
     }
 
     public static Transaction of(
+            String transactionId,
             String customerId,
             String merchant,
             BigDecimal amount,
             String currency,
             LocalDateTime timestamp) {
 
-        return new Transaction(new TransactionId(),
+        return new Transaction(
+                new TransactionId(UUID.fromString(transactionId)),
                 new CustomerId(customerId),
                 new Money(amount, currency),
                 new Merchant(merchant),
@@ -45,6 +48,7 @@ public final class Transaction {
         );
     }
     public static Transaction fromEntity(
+            String transactionId,
             String customerId,
             String merchant,
             String category,
@@ -52,12 +56,12 @@ public final class Transaction {
             String currency,
             LocalDateTime timestamp) {
 
-        Transaction transaction = of(customerId, merchant, amount, currency, timestamp);
-        transaction.categorize(new Category(category));
+        Transaction transaction = of(transactionId, customerId, merchant, amount, currency, timestamp);
+        transaction.assignCategory(new Category(category));
         return transaction;
     }
 
-    public void categorize(Category category) {
+    public void assignCategory(Category category) {
         this.category = category;
     }
 

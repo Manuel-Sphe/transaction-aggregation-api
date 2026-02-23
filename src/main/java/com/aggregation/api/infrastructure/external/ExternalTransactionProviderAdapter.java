@@ -1,6 +1,6 @@
 package com.aggregation.api.infrastructure.external;
 
-import com.aggregation.api.application.port.out.TransactionProviderPort;
+import com.aggregation.api.domain.port.TransactionProviderPort;
 import com.aggregation.api.domain.model.Transaction;
 import com.aggregation.api.domain.valueobject.CustomerId;
 import org.springframework.stereotype.Component;
@@ -20,12 +20,13 @@ public class ExternalTransactionProviderAdapter implements TransactionProviderPo
     }
 
     @Override
-    public List<Transaction> fetchTransactionsByCustomerId(CustomerId customerId) {
-
-        List<Transaction> fromA = providerA.fetchTransactions(customerId);
-        List<Transaction> fromB = providerB.fetchTransactions(customerId);
-
-        return Stream.concat(fromA.stream(), fromB.stream())
+    public List<Transaction> fetchTransactions(CustomerId customerId) {
+        return Stream.concat(
+                providerA.fetchTransactions(customerId).stream(),
+                        providerB.fetchTransactions(customerId).stream()
+                )
                 .toList();
     }
+
+
 }

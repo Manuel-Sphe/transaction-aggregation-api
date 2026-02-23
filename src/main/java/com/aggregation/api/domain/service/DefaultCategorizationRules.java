@@ -8,7 +8,7 @@ public class DefaultCategorizationRules {
 
     private DefaultCategorizationRules() {}
 
-    public List<CategorizationRule> defaultRules() {
+    public static List<CategorizationRule> defaultRules() {
         return List.of(
                 new CategorizationRule("uber|bolt|taxify",
                         Category.TRANSPORT, 1),
@@ -20,7 +20,10 @@ public class DefaultCategorizationRules {
                         Category.ENTERTAINMENT, 3),
 
                 new CategorizationRule("eskom|telkom|vodacom",
-                        Category.BILLS, 4)
+                        Category.BILLS, 4),
+
+                new CategorizationRule("fitness|virgin active",
+                        Category.FITNESS, 5)
         );
     }
 }

@@ -14,6 +14,9 @@ public record Category(String category) {
     public static final Category BILLS =
             new Category("BILLS");
 
+    public static final Category FITNESS =
+            new Category("FITNESS");
+
     public static final Category OTHER =
             new Category("OTHER");
 
