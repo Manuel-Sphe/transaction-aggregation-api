@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,6 +39,7 @@ class AggregationServiceTest {
 
     private Transaction sample(String amount) {
         return Transaction.of(
+                UUID.randomUUID().toString(),
                 "cust-1",
                 "Test Merchant",
                 new BigDecimal(amount),
