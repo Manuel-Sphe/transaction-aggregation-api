@@ -99,6 +99,3 @@ Default datasource (local dev) points to Postgres:
 
 > Tip: for tests, the project uses an in-memory H2 database via the `test` profile.
 
-## Run with Docker (PostgreSQL)
-
-Start Postgres:
